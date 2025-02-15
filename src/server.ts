@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import 'module-alias/register';
 import mongoose from 'mongoose';
 import 'tsconfig-paths/register';
 import app from './app';
