@@ -45,19 +45,28 @@ export const getListCategory = async ({
 	const results = await Category.aggregate([
 		{ $match: query },
 
-		...(with_product ? [{
-			$lookup: {
-				from: 'product',
-				localField: '_id',
-				foreignField: 'category',
-				as: 'products',
+		...(with_product ? [
+			{
+				$lookup: {
+					from: 'product',
+					localField: '_id',
+					foreignField: 'category',
+					as: 'products',
+				},
 			},
-		},
-		{
-			$addFields: {
-				products: { $slice: ['$products', product_count] },
+			{
+				$set: {
+					products: {
+						$sortArray: { input: '$products', sortBy: { category_updated_at: -1 } },
+					},
+				},
 			},
-		}] : []),
+			{
+				$addFields: {
+					products: { $slice: ['$products', product_count] },
+				},
+			},
+		] : []),
 
 		{ $sort: { is_super: -1, createdAt: -1 } },
 		{ $skip: offset },
