@@ -5,13 +5,13 @@ import {
 	listCategoryController,
 	updateCategoryController,
 } from '@/controllers';
-import { validateCategory } from '@/middlewares/validators/categoryValidator';
+import { validateCategory, validateListCategory } from '@/middlewares/validators/categoryValidator';
 import express from 'express';
 
 const routes = express.Router();
 
 routes
-	.get('/', listCategoryController)
+	.get('/', validateListCategory, listCategoryController)
 	.post('/', validateCategory, addCategoryController)
 	.patch('/:id', updateCategoryController)
 	.delete('/:id', deleteCategoryController)

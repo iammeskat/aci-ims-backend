@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 import Joi from 'joi';
 import jwt from 'jsonwebtoken';
 import { isValidObjectId } from 'mongoose';
@@ -103,11 +103,11 @@ export const validationErrRes = (errors: TValidationErrorItem[], msg?: string) =
 
 export const validateSchema = (
 	schema: Joi.ObjectSchema,
-	req: Request,
+	payload: IParsedQs,
 	res: Response,
 	next: NextFunction
 ) => {
-	const { error } = schema.validate(req.body, { abortEarly: false });
+	const { error } = schema.validate(payload, { abortEarly: false });
 	if (error) return res.status(400).json(validationErrRes(error.details));
 	next();
 };

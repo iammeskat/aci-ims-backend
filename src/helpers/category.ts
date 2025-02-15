@@ -28,26 +28,48 @@ export const updateCategory = async (filter: object, body: object) => {
 	return doc;
 };
 
+
 export const getListCategory = async ({
 	limit,
 	offset,
 	currentPage,
 	search,
+	with_product,
+	product_count = 10,
 }: TGetList) => {
 	const query: IAnyObj = {};
-	if (search) query['$text'] = { $search: search };
+	if (search) query["$text"] = { $search: search };
 
 	const total = await Category.countDocuments(query);
 
-	const results = await Category.find(query)
-		.skip(offset)
-		.limit(limit)
-		.sort({ createdAt: -1 });
+	const results = await Category.aggregate([
+		{ $match: query },
 
-	const pagination = getPagination({ currentPage, offset, limit, total });
+		...(with_product ? [{
+			$lookup: {
+				from: 'product',
+				localField: '_id',
+				foreignField: 'category',
+				as: 'products',
+			},
+		},
+		{
+			$addFields: {
+				products: { $slice: ['$products', product_count] },
+			},
+		}] : []),
+
+		{ $sort: { is_super: -1, createdAt: -1 } },
+		{ $skip: offset },
+		{ $limit: limit },
+	]);
+
+
+	const pagination = getPagination({ currentPage, offset, limit, total })
 	return {
 		results,
 		total,
 		...pagination,
 	};
-};
+
+}

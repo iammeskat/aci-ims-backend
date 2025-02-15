@@ -16,7 +16,7 @@ export const validateProduct = async (
 		category: Joi.string(),
 	});
 
-	validateSchema(schema, req, res, next);
+	validateSchema(schema, req.body, res, next);
 };
 
 export const validateUpdateProduct = async (
@@ -30,7 +30,7 @@ export const validateUpdateProduct = async (
 		category: Joi.string(),
 	});
 
-	validateSchema(schema, req, res, next);
+	validateSchema(schema, req.body, res, next);
 };
 
 
@@ -43,7 +43,7 @@ export const validateBarcode = async (
 		barcode: Joi.string().length(13).required(),
 	});
 
-	validateSchema(schema, req, res, async () => {
+	validateSchema(schema, req.body, res, async () => {
 		const existingProduct = await getProduct({ barcode: req.body.barcode });
 		if (existingProduct) {
 			return res

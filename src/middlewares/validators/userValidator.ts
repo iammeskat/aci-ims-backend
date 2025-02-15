@@ -41,7 +41,7 @@ export const validateUser = async (
 ) => {
 	const schema = Joi.object(CR);
 
-	validateSchema(schema, req, res, async () => {
+	validateSchema(schema, req.body, res, async () => {
 		const existingUser = await getUser({ email: req.body.email });
 		if (existingUser) {
 			return res
@@ -69,7 +69,7 @@ export const validateUserUpdate = async (
 		email: Joi.string().email(),
 	});
 
-	validateSchema(schema, req, res, async () => {
+	validateSchema(schema, req.body, res, async () => {
 		const existingUser = await getUser({
 			email: req.body.email,
 			_id: { $ne: req.user?._id },
@@ -93,7 +93,7 @@ export const validateLogin = async (
 		password: Joi.string().required(),
 	});
 
-	validateSchema(schema, req, res, next);
+	validateSchema(schema, req.body, res, next);
 };
 
 
