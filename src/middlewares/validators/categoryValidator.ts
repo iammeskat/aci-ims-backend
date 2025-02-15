@@ -28,6 +28,32 @@ export const validateCategory = async (
 	});
 };
 
+export const validateUpdateCategory = async (
+	req: IReq,
+	res: Response,
+	next: NextFunction
+) => {
+	const schema = Joi.object({
+		title: Joi.string().max(56),
+	});
+
+	validateSchema(schema, req.body, res, async () => {
+		const existingCat = await getCategory({
+			title: req.body.title.toLowerCase(),
+			_id: { $ne: req.params.id },
+		});
+		if (existingCat) {
+			return res
+				.status(400)
+				.json(validationErrRes(
+					[{ message: `The category with name ${req.body.title} has already exist` }],
+					"Category already exist"
+				));
+		}
+		next();
+	});
+};
+
 export const validateListCategory = async (
 	req: IReq,
 	res: Response,
