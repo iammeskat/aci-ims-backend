@@ -1,18 +1,14 @@
 {
-	"compilerOptions": {
-		"target": "ES6",
-		"module": "CommonJS",
-		"outDir": "./dist",
-		"rootDir": "./src",
-		"strict": true,
-		"esModuleInterop": true,
-		"moduleResolution": "node",
-		"paths": {
-			"@/*": ["./src/*"]
-			// "@models/*": ["./src/models/*"],
-			// "@routes/*": ["./src/routes/*"],
-			// "@controllers/*": ["./src/controllers/*"],
-			// "@helpers/*": ["./src/helpers/*"]
-		}
-	}
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS",
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
 }
