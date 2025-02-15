@@ -1,5 +1,5 @@
 {
-  "name": "lms-bro",
+  "name": "aci-ims",
   "version": "1.0.0",
   "main": "dist/server.js",
   "type": "commonjs",
@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon src/server.ts ",
     "build": "tsc",
-    "start": "npm run build && node dist/server.js"
+    "start": "node dist/server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
