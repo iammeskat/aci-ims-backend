@@ -44,7 +44,7 @@ export const getListUser = async ({
 
 	const total = await User.countDocuments(query);
 
-	const results = await User.find(query)
+	const results = await User.find(query, "-password")
 		.skip(offset)
 		.limit(limit)
 		.sort({ createdAt: -1 });
