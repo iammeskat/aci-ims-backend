@@ -8,8 +8,8 @@ export const deleteUserController = async (req: IReq, res: Response, next: NextF
 	try {
 		verifyObjId(id);
 
-		const deleted = await deleteUser({ _id: id });
-		if (!deleted) throw Error('Cannot find user');
+		const deleted = await deleteUser({ _id: id, role: { $ne: 1 }, });
+		if (!deleted) throw Error('Unable to delete');
 
 		res.status(200).json({
 			code: 200,

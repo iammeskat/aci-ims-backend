@@ -72,7 +72,7 @@ export const validateUserUpdate = async (
 	validateSchema(schema, req.body, res, async () => {
 		const existingUser = await getUser({
 			email: req.body.email,
-			_id: { $ne: req.user?._id },
+			_id: { $ne: req.params?.id },
 		});
 		if (existingUser) {
 			return res
